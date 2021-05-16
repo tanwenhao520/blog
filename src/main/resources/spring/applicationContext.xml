@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task.xsd">
+    <!--扫描定时任务包-->
+    <!--<context:component-scan base-package="com.tan.blog.task"></context:component-scan>
+    <task:annotation-driven/>-->
+
+    <context:component-scan base-package="com.tan.blog.service"></context:component-scan>
+
+    <context:property-placeholder location="classpath:properties/*.properties"></context:property-placeholder>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <!--数据库连接池常用属性-->
+        <!-- 初始化连接数量 -->
+        <property name="initialSize" value="6" />
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="3" />
+        <!-- 最大并发连接数(最大连接池数量) -->
+        <property name="maxActive" value="50" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+    </bean>
+    <bean  class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"></property>
+        <property name="typeAliasesPackage" value="com.tan.blog.pojo"></property>
+    </bean>
+<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.tan.blog.dao"></property>
+    </bean>-->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.tan.blog.dao"/>
+        <property name="properties">
+            <value>
+                mappers=tk.mybatis.mapper.common.Mapper
+            </value>
+        </property>
+    </bean>
+
+    <!--定义solr的客户端-->
+    <bean id="httpSolrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+        <!--<constructor-arg index="0" value="${solr.baseUrl}"/>-->
+        <constructor-arg index="0" value="http://192.168.134.101:8080/solr"/>
+        <!-- 设置响应解析器 -->
+        <property name="parser">
+            <bean class="org.apache.solr.client.solrj.impl.XMLResponseParser"/>
+        </property>
+        <!-- 建立连接的最长时间 -->
+        <!--<property name="connectionTimeout" value="${solr.connectionTimeout}"/>-->
+        <property name="connectionTimeout" value="3000"/>
+    </bean>
+
+    <!--定义Redis的最大连接数和空闲连接数-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="10"></property>
+        <property name="maxIdle" value="2"></property>
+    </bean>
+    <!--定义SpringData-Redis客户端 操作Redis-->
+    <bean id="jedisConnectionFactory"  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig"></property>
+        <property name="usePool" value="true"></property>
+        <property name="hostName" value="${redis.host}"></property>
+        <property name="port" value="${redis.port}"></property>
+    </bean>
+
+    <bean id="redis" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+        <!--开启事务  -->
+        <property name="enableTransactionSupport" value="true"></property>
+    </bean>
+
+
+</beans>
