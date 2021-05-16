@@ -6,6 +6,7 @@ import com.tan.blog.pojo.Contents;
 import com.tan.blog.pojo.DayWord;
 import com.tan.blog.service.ContentService;
 import com.tan.blog.service.DayWordServcie;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -20,6 +21,7 @@ import java.util.*;
  * @Author:TWH
  * @Date:2021/4/25 22:45
  */
+@Api(description = "首页接口")
 @RequestMapping("/index")
 @RestController
 public class IndexController {
