@@ -4,6 +4,7 @@ import com.tan.blog.common.PageResult;
 import com.tan.blog.common.Result;
 import com.tan.blog.pojo.DayWord;
 import com.tan.blog.service.DayWordServcie;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.solr.client.solrj.request.V1toV2ApiMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
  * @Author:TWH
  * @Date:2021/5/3 23:25
  */
+@Api(description = "每日一句接口")
 @RequestMapping("/DayWord")
 @RestController
 public class DayWordController {
