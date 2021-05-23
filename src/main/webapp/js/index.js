@@ -338,7 +338,6 @@ function findHotContents() {
             alert(data)
             $(".hotContents").html("");
             for (var hot in data) {
-                alert(data[hot].id);
                 $(".hotContents").append("<li>" +
                     "<a href=\"\" class='"+data[hot].id+"'><span class=\"thumbnail\"><img class=\"thumb\" data-original=\""+data[hot].titleImg+"\" src=\""+data[hot].titleImg+"\" alt=\"\"></span><span class=\"text\">"+data[hot].title+"</span>" +
                     "<span class=\"muted\"><i class=\"glyphicon glyphicon-time\"></i>"+new Date(data[hot].createTime).toLocaleDateString()+"</span>" +
