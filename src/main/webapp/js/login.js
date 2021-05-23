@@ -10,3 +10,44 @@ $(".send").on("click", function() {
 			"<i class='fa fa-lightbulb-o'></i><span class='bigger-110'>重置</span></button></div>")
 			
 			})
+//登录按钮点击事件
+$(".loginUser").on("click",function () {
+	alert(1)
+	var userName= $("#userName").val();
+	var passWord = $("#passWord").val();
+	$(".uMessage").html("");
+	$(".pMessage").html("");
+	if(userName!= "" && passWord!=""){
+		function findUser() {
+			$.ajax({
+				type:"get",
+				dataType: "json",
+				//contentType: "application/json;charset=utf-8",
+				data:{"userName":userName,"passWord":passWord},
+				url: "http://localhost:8081/blog/login/loginUser",
+				async: true,
+				success: function success(data) {
+					if (data.success == true) {
+						alert(data.message);
+						window.location.replace("http://localhost:8081/blog") ;
+					}else{
+						$(".eMessage").html(data.message);
+					}
+				},
+				error: function error(data) {
+					alert(data.message);
+				}
+			});
+		}
+		findUser();
+	}else if (userName =="") {
+		$(".uMessage").html("请输入用户名");
+	}else if (passWord ==""){
+		$(".pMessage").html("请输入密码");
+	}
+})
+
+$(".loginUser").click(function(){
+
+})
+
