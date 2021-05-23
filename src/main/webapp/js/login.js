@@ -48,6 +48,6 @@ $(".loginUser").on("click",function () {
 })
 
 $(".loginUser").click(function(){
-
+    alert(1);
 })
 
