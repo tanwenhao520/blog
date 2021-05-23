@@ -335,7 +335,6 @@ function findHotContents() {
         url:"http://localhost:8081/blog/index/findHotContent",
         async:true,
         success:function (data) {
-            alert(data)
             $(".hotContents").html("");
             for (var hot in data) {
                 $(".hotContents").append("<li>" +

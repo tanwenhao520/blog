@@ -1,6 +1,5 @@
 //登录按钮点击事件
 $(".loginUser").on("click",function () {
-	alert(1)
 	var userName= $("#userName").val();
 	var passWord = $("#passWord").val();
 	$(".uMessage").html("");
@@ -19,7 +18,7 @@ $(".loginUser").on("click",function () {
 						alert(data.message);
 						window.location.replace("http://localhost:8081/blog") ;
 					}else{
-						$(".eMessage").html(data.message);
+						$(".pMessage").html(data.message);
 					}
 				},
 				error: function error(data) {
@@ -33,10 +32,6 @@ $(".loginUser").on("click",function () {
 	}else if (passWord ==""){
 		$(".pMessage").html("请输入密码");
 	}
-})
-
-$(".loginUser").click(function(){
-	alert(1);
 })
 
 $(".send").on("click", function() {
