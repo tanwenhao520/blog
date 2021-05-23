@@ -41,9 +41,9 @@ public class SpringTestToRedis {
 
     @Test
     public void addImg(){
-        redisTemplate.boundHashOps("img").put("1","http://shp.qpic.cn/ishow/2735042018/1618915965_84828260_2160_sProdImgNo_2.jpg/0");
-        redisTemplate.boundHashOps("img").put("2","http://shp.qpic.cn/ishow/2735041519/1618485629_84828260_22420_sProdImgNo_2.jpg/0");
-        redisTemplate.boundHashOps("img").put("3","http://shp.qpic.cn/ishow/2735010717/1610011288_84828260_7033_sProdImgNo_2.jpg/0");
+        redisTemplate.boundHashOps("img").put("1","G:\\blog\\src\\main\\webapp\\images\\111.jpg");
+        redisTemplate.boundHashOps("img").put("2","G:\\blog\\src\\main\\webapp\\images\\aaa.jpg");
+        redisTemplate.boundHashOps("img").put("3","G:\\blog\\src\\main\\webapp\\images\\bbb.jpg");
     }
     //获取Redis存放的图片
     @Test
