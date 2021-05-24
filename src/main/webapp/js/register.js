@@ -48,6 +48,34 @@ var zPassWord = /^[a-z0-9_-]{6,18}$/;
 var zEamil = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 var zPhone = /^1[3|4|5|7|8][0-9]{9}$/;
 
+//发送邮箱获取验证码
+$(".Semail").click(function () {
+    $(".Lcode").remove()
+    var semail = $(".Semail").html();
+    alert(semail)
+    $(".Semail").attr("class","Semail  btn btn-primary disabled")
+    $(".Semail").attr("disabled","disabled")
+    var time = 59;
+    var timer = setInterval(function () {
+        var temp = time--;
+        $(".Semail").html("("+temp+")秒后获取验证码");
+        if(temp <= 0){
+            $(".Semail").attr("class","Semail  btn btn-primary")
+            $(".Semail").removeAttr("disabled");
+            $(".Semail").html("获取验证码");
+            clearInterval(timer)
+            return
+        }
+    },1000);
+    $(".Lphone").after("<label class='block clearfix Lcode\'>" +
+        "<span class='block input-icon input-icon-right'>\n" +
+        "<input type='user' class='form-control' placeholder='验证码' />" +
+        "<i class='ace-icon fa fa-code'></i>\n" +
+        "</span>\n" +
+        "</label>")
+})
+
+
 $("#userName").blur(function () {
     var userName = $("#userName").val();
     alert(userName);
@@ -75,11 +103,11 @@ $(".uRegister").click(function() {
     $(".qpMessage").html("");
     $(".phoneMessage").html("");
 
-    var userName = $("#userName").val();
-    var email = $("#email").val();
-    var passWord = $("#passWord").val();
-    var qpassWord = $("#qpassWord").val();
-    var phone = $("#phone").val();
+    var userName = $("#ruserName").val();
+    var email = $("#remail").val();
+    var passWord = $("#rpassWord").val();
+    var qpassWord = $("#rqpassWord").val();
+    var phone = $("#rphone").val();
 
     if(userName == ""){
         $(".userNameMessage").html("请输入用户名!");
