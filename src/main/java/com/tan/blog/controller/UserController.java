@@ -77,4 +77,10 @@ public class UserController {
         return userService.findPage(page,row,user);
 
     }
+
+    @ApiOperation(value = "邮箱验证码",notes = "发送邮箱验证码")
+    @GetMapping("/sendEmailCode")
+    public Result sendEmailCode(){
+        return null;
+    }
 }

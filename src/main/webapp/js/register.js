@@ -55,6 +55,7 @@ $(".Semail").click(function () {
     alert(semail)
     $(".Semail").attr("class","Semail  btn btn-primary disabled")
     $(".Semail").attr("disabled","disabled")
+    sendEmailCode();
     var time = 59;
     var timer = setInterval(function () {
         var temp = time--;
@@ -74,9 +75,23 @@ $(".Semail").click(function () {
         "</span>\n" +
         "</label>")
 })
+//发送邮箱验证码
+function sendEmailCode(){
+    $.ajax({
+        type:"get",
+        dataType:"json",
+        url:"http://localhost:8081/blog/user/sendEmailCode",
+        async:true,
+        success:function (data) {
+            alert("发送验证码成功,请打开邮箱查看!")
+        },
+        error:function () {
+            alert("服务器出现了异常!")
+        }
 
-
-$("#userName").blur(function () {
+    })
+}
+$("#ruserName").blur(function () {
     var userName = $("#userName").val();
     alert(userName);
     if(userName ==null || userName == ""){
@@ -96,7 +111,6 @@ $("#userName").blur(function () {
 })
 
 $(".uRegister").click(function() {
-    alert(11);
     $(".userNameMessage").html("");
     $(".emailMessage").html("");
     $(".passWordMessage").html("");
@@ -108,6 +122,7 @@ $(".uRegister").click(function() {
     var passWord = $("#rpassWord").val();
     var qpassWord = $("#rqpassWord").val();
     var phone = $("#rphone").val();
+
 
     if(userName == ""){
         $(".userNameMessage").html("请输入用户名!");
@@ -157,8 +172,13 @@ $(".uRegister").click(function() {
         url:"http://localhost:8081/blog/user/addUser",
         async:true,
         success:function (data) {
-            alert(data.message);
-            window.location.replace("http://localhost:8081/blog");
+            if(data.success == false){
+                alert(data.message);
+            }else{
+                alert(data.message);
+                window.location.replace("http://localhost:8081/blog");
+            }
+
         },
         error:function () {
             alert("服务器异常!");
